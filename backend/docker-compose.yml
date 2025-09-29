@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: kdb
+    restart: always
+    environment:
+      POSTGRES_USER: codespace
+      POSTGRES_PASSWORD: 5966561
+      POSTGRES_DB: eCommerceKalamarket
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: eCommerceKalamarket
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 5966561
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./prisma/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - kala-market-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - kala-market-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile   # 👈 مشخص شد
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:5966561@postgres:5432/eCommerceKalamarket?schema=public # 👈 localhost → postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your-super-secret
+      JWT_REFRESH_SECRET: your-refresh-secret
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - kala-market-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile  # 👈 مشخص شد
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3001  # 👈 با نام سرویس
+    depends_on:
+      - backend
+    networks:
+      - kala-market-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  kala-market-network:
+    driver: bridge
