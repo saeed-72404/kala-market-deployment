@@ -1,6 +1,6 @@
 [submodule "backend"]
 	path = backend
-	url = git@github.com:saeed-esmaeilzadeh-anari/backendECommerceKalamarket.git
+	url = git@github.com:saeed-72404/backendECommerceKalamarket.git
 [submodule "frontend"]
 	path = frontend
-	url = git@github.com:saeed-esmaeilzadeh-anari/frontendECommerceKalamarket.git
+	url = git@github.com:saeed-72404/frontendECommerceKalamarket.git
