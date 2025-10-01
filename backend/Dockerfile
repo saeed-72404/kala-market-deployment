@@ -9,7 +9,7 @@ RUN npm run build
 
 # Production
 FROM node:20-alpine
-WORKDIR /app
+WORKDIR /app 
 
 # کپی پروژه و node_modules کامل
 COPY --from=builder /app/dist ./dist
